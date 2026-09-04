@@ -1,0 +1,9 @@
+const nav=document.getElementById("nav"),menu=document.querySelector(".menu");
+menu.addEventListener("click",()=>{const open=nav.classList.toggle("open");menu.setAttribute("aria-expanded",open)});
+document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));
+
+const data=()=>({name:document.getElementById("name").value.trim(),phone:document.getElementById("phone").value.trim(),postcode:document.getElementById("postcode").value.trim(),service:document.getElementById("service").value,property:document.getElementById("property").value.trim(),date:document.getElementById("date").value,message:document.getElementById("message").value.trim()});
+function text(d){return `Hello BrightHaven Cleaning,\n\nI'd like to request a free cleaning quote.\n\nName: ${d.name}\nPhone: ${d.phone}\nPostcode: ${d.postcode}\nCleaning service: ${d.service}\nProperty size: ${d.property||"Not specified"}\nPreferred date: ${d.date||"Not specified"}\nAdditional information: ${d.message||"None"}\n\nPlease let me know the price and availability. Thank you.`}
+const form=document.getElementById("quoteForm"),status=document.getElementById("status");
+document.getElementById("waSubmit").addEventListener("click",()=>{if(!form.reportValidity())return;const url="https://wa.me/447857552641?text="+encodeURIComponent(text(data()));window.open(url,"_blank","noopener");status.textContent="WhatsApp opened with your enquiry ready to send.";});
+form.addEventListener("submit",e=>{e.preventDefault();if(!form.reportValidity())return;const d=data();window.location.href="mailto:brighthavencleaninguk@gmail.com?subject="+encodeURIComponent("BrightHaven Cleaning Enquiry - "+d.service)+"&body="+encodeURIComponent(text(d));status.textContent="Your email app should open with the enquiry prepared.";});
